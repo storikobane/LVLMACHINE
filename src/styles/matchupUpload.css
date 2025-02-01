@@ -1,0 +1,174 @@
+/* Matchup Upload Page - Styled to Match Lineups Page */
+
+:root {
+  --soft-blue: #ADD8E6;
+  --light-gray: #D3D3D3;
+  --charcoal: #36454F;
+  --subtle-mint: #98FB98;
+  --white: #FFFFFF;
+  --black: #000000;
+  --dark-gray: #1C1C1C;
+}
+
+/* General Page Styling */
+.matchups-page {
+  background: linear-gradient(180deg, var(--dark-gray), var(--charcoal));
+  color: var(--white);
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding-top: 80px; /* Ensures spacing below navbar */
+}
+
+/* Header Styling */
+h2 {
+  color: var(--soft-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Upload Buttons Section */
+.upload-section {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.upload-section label, .upload-section button {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 18px;
+  background-color: var(--charcoal);
+  color: var(--soft-blue);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+}
+
+.upload-section label:hover, .upload-section button:hover {
+  background-color: var(--soft-blue);
+  color: var(--black);
+}
+
+.upload-section input.upload-input {
+  display: none;
+}
+
+/* Opponents Table Styling */
+.opponents-table {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--charcoal);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--soft-blue);
+  box-shadow: 0px 3px 10px rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.opponents-table thead {
+  background-color: var(--soft-blue);
+  color: var(--black);
+}
+
+.opponents-table th {
+  font-size: 1rem;
+  padding: 12px;
+  text-transform: uppercase;
+}
+
+.opponents-table th:first-child {
+  width: 200px;
+}
+
+.opponents-table th:last-child {
+  width: 90px;
+}
+
+.opponents-table tbody tr:nth-child(odd) {
+  background-color: var(--dark-gray);
+}
+
+.opponents-table tbody tr:nth-child(even) {
+  background-color: var(--charcoal);
+}
+
+.opponents-table tbody tr:hover {
+  background-color: var(--soft-blue);
+  color: var(--black);
+}
+
+.opponents-table td {
+  padding: 10px;
+  text-align: center;
+  color: var(--white);
+}
+
+.opponents-table input {
+  width: 90%;
+  padding: 8px;
+  background-color: var(--dark-gray);
+  border: 1px solid var(--soft-blue);
+  color: var(--white);
+  text-align: center;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.opponents-table input:focus {
+  outline: none;
+  border-color: var(--subtle-mint);
+}
+
+/* Save & Advance Button at Bottom */
+.save-button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3);
+}
+
+.save-button:hover {
+  background-color: var(--charcoal);
+  color: var(--soft-blue);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .matchups-page {
+    padding: 15px;
+  }
+
+  .opponents-table th,
+  .opponents-table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .opponents-table {
+    width: 90%;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}

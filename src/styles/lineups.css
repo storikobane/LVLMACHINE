@@ -1,0 +1,147 @@
+/* Lineups Page Specific Styles */
+.lineups-page {
+  background: linear-gradient(180deg, var(--dark-gray), var(--charcoal));
+  color: var(--white);
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding-top: 80px; /* Adds space between the navbar and header */
+}
+
+.lineups-page h2 {
+  color: var(--soft-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Buttons */
+.lineups-page .glow-button {
+  background-color: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px 5px;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+}
+
+.lineups-page .glow-button:hover {
+  background-color: var(--charcoal);
+  color: var(--soft-blue);
+  box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.3);
+}
+
+.lineups-page .input-div input[type="file"] {
+  display: none;
+}
+
+/* Upload Section */
+.lineups-page .top-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Ensures buttons are above the table */
+}
+
+/* Player List */
+.lineups-page .player-list {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Player Row */
+.lineups-page .player-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--charcoal);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%; /* Ensure rows take up full width */
+}
+
+/* Player Position */
+.lineups-page .player-row span {
+  width: 50px;
+  text-align: center;
+  color: var(--white);
+  font-weight: bold;
+}
+
+/* Input Fields */
+.lineups-page input {
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--dark-gray);
+  color: var(--soft-blue);
+  border: 2px solid var(--light-gray);
+}
+
+.lineups-page .name-input {
+  flex-grow: 2; /* Makes name input larger */
+  margin-right: 10px;
+  min-width: 200px; /* Ensures minimum width for name input */
+}
+
+.lineups-page .rating-input {
+  flex-grow: 0; /* Prevents unnecessary stretching */
+  max-width: 90px; /* Restricts rating input width */
+  text-align: center;
+}
+
+/* Save Button */
+.lineups-page .save-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3);
+}
+
+.lineups-page .save-button:hover {
+  background-color: var(--charcoal);
+  color: var(--soft-blue);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .lineups-page {
+    padding: 15px;
+  }
+
+  .lineups-page .player-row {
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+
+  .lineups-page .name-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .lineups-page .rating-input {
+    width: 100%;
+  }
+}

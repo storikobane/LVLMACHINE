@@ -1,0 +1,142 @@
+:root {
+  --jet: #333232;
+  --dark-slate-gray: #1A5B60;
+  --caribbean-current: #126B7D;
+  --outer-space: #455A5F;
+  --pale-dogwood: #CEB7B3;
+  --win-green: #00FF00;
+  --loss-red: #FF0000;
+  --tie-gray: var(--pale-dogwood); /* Tie border color */
+}
+
+/* Overall container */
+.match-history {
+  background-color: var(--jet);
+  color: var(--pale-dogwood);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+/* Header styling */
+.match-history h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--caribbean-current);
+  text-transform: uppercase;
+}
+
+/* Total record */
+.total-record {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--pale-dogwood);
+}
+
+/* Tier filter container */
+.tier-filter {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  background-color: var(--dark-slate-gray);
+  color: var(--pale-dogwood);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.filter-button.active,
+.filter-button:hover {
+  background-color: var(--caribbean-current);
+}
+
+/* Match cards container */
+.match-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Match card container */
+.match-card {
+  background-color: var(--outer-space);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid var(--tie-gray); /* Default (Tie) */
+  max-width: 250px;
+  flex: 1 1 250px;
+}
+
+.match-card.win {
+  border-color: var(--win-green); /* Green for wins */
+  box-shadow: 0 0 15px var(--win-green); /* Green glow for wins */
+}
+
+.match-card.loss {
+  border-color: var(--loss-red); /* Red for losses */
+  box-shadow: 0 0 15px var(--loss-red); /* Red glow for losses */
+}
+
+.match-card.tie {
+  border-color: var(--tie-gray); /* Tie color (Pale Dogwood) */
+  box-shadow: 0 0 15px var(--tie-gray); /* Tie glow */
+}
+
+/* Date styling */
+.match-card .match-date {
+  font-size: 10px;
+  color: var(--pale-dogwood);
+  margin-bottom: 8px;
+}
+
+/* Opponent name styling */
+.match-card .match-opponent {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--pale-dogwood);
+}
+
+/* Score styling */
+.match-card .match-score {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--pale-dogwood);
+}
+
+/* Tier styling */
+.match-card .match-tier {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--caribbean-current);
+  margin-top: 5px;
+}
+.total-record {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--pale-dogwood);
+}
+.lineups-page, .match-history-page {
+  padding-top: 80px; /* Ensures content starts below the navbar */
+  min-height: 100vh; /* Makes sure the page takes full height */
+  overflow-y: auto; /* Ensures scrolling is enabled */
+}

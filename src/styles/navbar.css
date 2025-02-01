@@ -1,0 +1,138 @@
+/* Navbar Styles */
+.navbar {
+  background-color: var(--color-primary);
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation Title */
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.nav-title a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+/* Show name of the active page or on hover */
+.nav-links a .nav-icon {
+  font-size: 24px;
+}
+
+.nav-links a .nav-label {
+  display: none; /* Default: Hide the label */
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--highlight);
+}
+
+.nav-links .active a .nav-label,
+.nav-links a:hover .nav-label {
+  display: inline; /* Show label on hover or if active */
+}
+
+.nav-links .active a .nav-icon,
+.nav-links a:hover .nav-icon {
+  display: none; /* Hide the icon when showing the label */
+}
+
+/* Profile Section */
+.profile-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  color: var(--text-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.profile-icon:hover {
+  color: var(--highlight);
+}
+
+.profile-icon .nav-icon {
+  font-size: 24px;
+}
+
+.profile-icon .nav-label {
+  display: none;
+}
+
+.profile-icon.active .nav-label,
+.profile-icon:hover .nav-label {
+  display: inline; /* Show label if active or hovered */
+}
+
+.profile-icon.active .nav-icon,
+.profile-icon:hover .nav-icon {
+  display: none; /* Hide icon when showing label */
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: var(--color-primary);
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 10px 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .profile-section {
+    display: none; /* Hide profile on mobile for simplicity */
+  }
+}

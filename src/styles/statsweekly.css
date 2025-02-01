@@ -1,0 +1,111 @@
+/* Stats Weekly Page Styles */
+
+:root {
+  --soft-blue: #ADD8E6;
+  --light-gray: #D3D3D3;
+  --charcoal: #36454F;
+  --subtle-mint: #98FB98;
+  --white: #FFFFFF;
+  --black: #000000;
+  --dark-gray: #1C1C1C;
+  --hover-highlight: #555555;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, var(--black), var(--dark-gray));
+  color: var(--white);
+}
+
+.stats-weekly {
+  padding: 100px 20px 20px; /* Ensures content starts below navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--dark-gray);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--soft-blue);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  text-align: center;
+  background-color: var(--charcoal);
+  color: var(--white);
+}
+
+.stats-table th {
+  background-color: var(--soft-blue);
+  color: var(--black);
+}
+
+.stats-table tr:nth-child(even) {
+  background-color: var(--dark-gray);
+}
+
+.stats-table tr:hover {
+  background-color: var(--hover-highlight);
+}
+
+.week-selector {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-selector select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  background-color: var(--charcoal);
+  color: var(--white);
+  text-align: center;
+}
+
+.week-selector select:hover {
+  background-color: var(--dark-gray);
+  cursor: pointer;
+}
+
+.week-selector button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.week-selector button:hover {
+  background-color: var(--subtle-mint);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-weekly {
+    padding: 100px 15px 15px; /* Ensures spacing below navbar remains consistent */
+  }
+}

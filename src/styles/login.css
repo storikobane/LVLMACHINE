@@ -1,0 +1,128 @@
+/* Modern & Sleek Login Page */
+.login-page {
+  --soft-blue: #ADD8E6;
+  --light-gray: #D3D3D3;
+  --charcoal: #36454F;
+  --subtle-mint: #98FB98;
+  --white: #FFFFFF;
+  --black: #000000;
+  --dark-gray: #1C1C1C;
+}
+
+/* Full Page Styling */
+.login-page {
+  background: linear-gradient(180deg, var(--black), var(--charcoal));
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  padding: 0; /* Ensures no extra padding */
+  overflow: hidden; /* Prevents unwanted scroll */
+}
+
+/* Centered Login Box */
+.login-page .login-box {
+  width: 90%;
+  max-width: 350px;
+  padding: 25px;
+  border-radius: 12px;
+  background: var(--dark-gray);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Header Styling */
+.login-page h2 {
+  font-size: 1.8em;
+  color: var(--soft-blue);
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
+.login-page .input-box {
+  width: 100%;
+  margin: 10px 0;
+  position: relative;
+}
+
+.login-page input {
+  width: 100%;
+  height: 45px;
+  background: #222;
+  border: 2px solid var(--charcoal);
+  outline: none;
+  border-radius: 8px;
+  font-size: 1em;
+  color: var(--soft-blue);
+  padding: 0 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-page input:focus {
+  border-color: var(--soft-blue);
+  box-shadow: 0 0 8px var(--soft-blue);
+}
+
+.login-page label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  pointer-events: none;
+  transition: 0.3s ease;
+  color: var(--light-gray);
+}
+
+.login-page input:focus ~ label,
+.login-page input:not(:placeholder-shown) ~ label {
+  top: -10px;
+  font-size: 0.8em;
+  background: var(--dark-gray);
+  padding: 0 6px;
+  color: var(--soft-blue);
+}
+
+/* Submit Button */
+.login-page .btn {
+  width: 100%;
+  height: 45px;
+  background: var(--soft-blue);
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  color: var(--black);
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-page .btn:hover {
+  background: var(--subtle-mint);
+  transform: scale(1.05);
+}
+
+/* Additional Text Links */
+.login-page .forgot-pass,
+.login-page .signup-link {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.login-page .signup-link a {
+  color: var(--soft-blue);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-page .signup-link a:hover {
+  text-decoration: underline;
+}
