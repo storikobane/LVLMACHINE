@@ -1,18 +1,32 @@
-import React from 'react';
-    import '../styles/profile.css';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import supabase from "../supabaseClient";
 
-    const Profile = () => {
-      return (
-        <div className="profile-page">
-          <h1>User Profile</h1>
-          <div className="profile-info">
-            <p><strong>Name:</strong> John Doe</p>
-            <p><strong>Email:</strong> johndoe@example.com</p>
-            <p><strong>League:</strong> Pro League</p>
-            <p><strong>Rank:</strong> 1st</p>
-          </div>
-        </div>
-      );
+const Profile = () => {
+  const { id } = useParams(); // Get user ID from URL
+  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    const fetchPlayer = async () => {
+      let { data, error } = await supabase
+        .from("players")
+        .select("*")
+        .eq("user_id", id)
+        .single();
+
+      if (!error) setPlayer(data);
     };
+    fetchPlayer();
+  }, [id]);
 
-    export default Profile;
+  if (!player) return <p>Loading...</p>;
+
+  return (
+    <div>
+      <h1>{player.name}</h1>
+      <p>Discord: {player.discord_name}</p>
+    </div>
+  );
+};
+
+export default Profile;

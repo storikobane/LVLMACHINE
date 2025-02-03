@@ -1,264 +1,206 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "../styles/statsupdate.css";
-import { supabase } from '../supabaseClient';
-import axios from 'axios';
+import { supabase } from "../supabaseClient";
 
 const StatsUpdate = () => {
-    const [tableData, setTableData] = useState([]);
-    const [message, setMessage] = useState("");
-    const [images, setImages] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [players, setPlayers] = useState([]);
+  const [message, setMessage] = useState("");
 
-    const blobStorageUrl = "https://statsimages.blob.core.windows.net/stats";
-    const sasToken = "sp=racwdli&st=2025-01-30T23:04:30Z&se=2025-02-28T07:04:30Z&sv=2022-11-02&sr=c&sig=R5mK4FB8mgqXnMSphPol2v7ay3%2BrqI8GXXiXU2VihlQ%3D";
-    const azureEndpoint = "https://matchupsreader.cognitiveservices.azure.com/";
-    const azureKey = "87HP219ViBXwWNC6G9hYqDA4Ec2SiJf1YJ0K9InroAVpRxS4dw65JQQJ99BAACYeBjFXJ3w3AAALACOG4skb";
+  // Fetch matches on component mount
+  useEffect(() => {
+    const fetchMatches = async () => {
+      setMessage("Loading matches...");
+      try {
+        const { data, error } = await supabase
+          .from("matchups")
+          .select("match_id, opp_league, date")
+          .order("date", { ascending: false });
 
-    useEffect(() => {
-        const fetchMatchup = async () => {
-            setMessage("Loading the latest matchup...");
+        if (error) throw error;
 
-            try {
-                const { data: matchups, error: matchupError } = await supabase
-                    .from("matchups")
-                    .select("match_id, opp_league, created_at")
-                    .order("created_at", { ascending: false })
-                    .limit(1)
-                    .single();
+        // Remove duplicates manually
+        const uniqueMatches = data.reduce((acc, match) => {
+          if (!acc.some((m) => m.match_id === match.match_id)) {
+            acc.push(match);
+          }
+          return acc;
+        }, []);
 
-                if (matchupError) throw matchupError;
-                if (!matchups) {
-                    setMessage("No matchup data found.");
-                    return;
-                }
-
-                const { match_id, opp_league } = matchups;
-
-                const { data: playersData, error: playersError } = await supabase
-                    .from("matchups")
-                    .select("player_id, players(name)")
-                    .eq("match_id", match_id);
-
-                if (playersError) throw playersError;
-
-                const predefinedOrder = [
-                    "StoriKobane",
-                    "SuperJett",
-                    "SuperChip",
-                    "Smileybchezzta",
-                    "Forgot-to-Wipe",
-                    "Quarterbubble",
-                    "Noliaclap504",
-                    "STBmazzy",
-                    "PipeLayer69",
-                    "TexanJoe84",
-                    "TheBronze",
-                    "Prince",
-                    "KobaneKrazy",
-                    "Chief"
-                ];
-
-                const matchingPlayers = [];
-                const remainingPlayers = [];
-
-                playersData.forEach(player => {
-                    if (predefinedOrder.includes(player.players.name)) {
-                        matchingPlayers.push(player);
-                    } else {
-                        remainingPlayers.push(player);
-                    }
-                });
-
-                matchingPlayers.sort((a, b) => predefinedOrder.indexOf(a.players.name) - predefinedOrder.indexOf(b.players.name));
-                const shuffledRemaining = remainingPlayers.sort(() => Math.random() - 0.5);
-                const sortedPlayersData = [...matchingPlayers, ...shuffledRemaining];
-
-                const tableData = sortedPlayersData.map(player => ({
-                    player_id: player.player_id,
-                    PlayerName: player.players.name,
-                    score: "",
-                    Fumbles: "",
-                    DefensiveStops: "",
-                    DefensiveScore: ""
-                }));
-
-                setTableData(tableData);
-                setMessage(`Loaded matchup against ${opp_league}.`);
-            } catch (error) {
-                setMessage(`Error loading matchup: ${error.message}`);
-            }
-        };
-
-        fetchMatchup();
-    }, []);
-
-    const handleImageUpload = (e) => {
-        if (e.target.files.length > 3) {
-            setMessage("You can upload a maximum of 3 images.");
-            return;
-        }
-        setImages([...e.target.files]);
+        console.log("Unique Matches:", uniqueMatches);
+        setMatches(uniqueMatches);
+        setMessage(uniqueMatches.length > 0 ? "" : "No matches available.");
+      } catch (error) {
+        console.error("Error fetching matches:", error);
+        setMessage(`Error loading matches: ${error.message}`);
+      }
     };
 
-    const handleAnalyze = async () => {
-        setMessage("Analyzing images...");
-        try {
-            const uploadedUrls = [];
+    fetchMatches();
+  }, []);
 
-            for (const image of images) {
-                const formData = new FormData();
-                formData.append("file", image);
+  // Fetch players for the selected match
+  const handleMatchSelection = async (matchId) => {
+    if (!matchId) return;
 
-                const uploadResponse = await axios.put(
-                    `${blobStorageUrl}/${image.name}?${sasToken}`,
-                    image,
-                    {
-                        headers: {
-                            "x-ms-blob-type": "BlockBlob",
-                        },
-                    }
-                );
+    setMessage("Loading players...");
+    try {
+      const { data: matchData, error } = await supabase
+        .from("matchups")
+        .select("player_id")
+        .eq("match_id", matchId);
 
-                if (uploadResponse.status === 201) {
-                    uploadedUrls.push(`${blobStorageUrl}/${image.name}`);
-                }
-            }
+      if (error) throw error;
 
-            const analyzePromises = uploadedUrls.map((url) =>
-                axios.post(
-                    `${azureEndpoint}/formrecognizer/v2.1/layout/analyze?modelId=stats2`,
-                    {
-                        source: url,
-                    },
-                    {
-                        headers: {
-                            "Ocp-Apim-Subscription-Key": azureKey,
-                        },
-                    }
-                )
-            );
+      console.log("Match Data:", matchData);
 
-            const analyzeResponses = await Promise.all(analyzePromises);
+      const playerIds = matchData.map((match) => match.player_id);
+      const { data: playersData, error: playersError } = await supabase
+        .from("players")
+        .select("id, name")
+        .in("id", playerIds);
 
-            analyzeResponses.forEach((response) => {
-                const extractedFields = response.data.fields;
+      if (playersError) throw playersError;
 
-                const updatedTable = tableData.map((player) => {
-                    const matchedField = extractedFields.find(
-                        (field) =>
-                            field.PlayerName?.value?.toLowerCase()?.replace(/\s+/g, "") ===
-                            player.PlayerName.toLowerCase().replace(/\s+/g, "")
-                    );
+      console.log("Players Data:", playersData);
 
-                    return matchedField
-                        ? { ...player, score: matchedField.score?.value || player.score }
-                        : player;
-                });
+      const playerStats = playersData.map((player) => ({
+        player_id: player.id,
+        PlayerName: player.name,
+        score: "",
+        fumbles: "",
+        defensive_stops: "",
+        defensive_score: "",
+      }));
 
-                setTableData(updatedTable);
-            });
+      const selected = matches.find((match) => match.match_id === matchId);
+      setPlayers(playerStats);
+      setSelectedMatch(selected);
+      setMessage(`Loaded matchup against ${selected.opp_league}`);
+    } catch (error) {
+      console.error("Error loading players:", error);
+      setMessage(`Error loading players: ${error.message}`);
+    }
+  };
 
-            setMessage("Scores updated from images.");
-        } catch (error) {
-            setMessage(`Error analyzing images: ${error.message}`);
-        }
-    };
+  // Update player stats
+  const handleTableChange = (index, field, value) => {
+    const updatedPlayers = [...players];
+    updatedPlayers[index][field] = value;
+    setPlayers(updatedPlayers);
+  };
 
-    const handleTableChange = (index, field, value) => {
-        const updatedData = [...tableData];
-        updatedData[index][field] = value;
-        setTableData(updatedData);
-    };
+  // Save stats
+  const handleSave = async () => {
+    setMessage("Saving stats...");
+    try {
+      const rows = players.map((player) => ({
+        player_id: player.player_id,
+        match_id: selectedMatch.match_id,
+        score: parseInt(player.score, 10) || 0,
+        fumbles: parseInt(player.fumbles, 10) || 0,
+        defensive_stops: parseInt(player.defensive_stops, 10) || 0,
+        defensive_score: parseInt(player.defensive_score, 10) || 0,
+      }));
 
-    const handleSave = async () => {
-        setMessage("Saving stats...");
-        try {
-            const rows = tableData.map(player => ({
-                player_id: player.player_id,
-                score: parseInt(player.score, 10),
-                fumbles: parseInt(player.Fumbles, 10) || 0,
-                defensive_stops: parseInt(player.DefensiveStops, 10) || 0,
-                defensive_score: parseInt(player.DefensiveScore, 10) || 0
-            }));
+      const { error } = await supabase.from("daily_stats").insert(rows);
 
-            const { error } = await supabase.from('daily_stats').insert(rows);
+      if (error) throw error;
 
-            if (error) throw error;
+      setMessage("Stats successfully saved!");
+    } catch (error) {
+      console.error("Error saving stats:", error);
+      setMessage(`Error saving stats: ${error.message}`);
+    }
+  };
 
-            setMessage("Stats successfully saved!");
-        } catch (error) {
-            setMessage(`Error saving stats: ${error.message}`);
-        }
-    };
+  return (
+    <div className="stats-update">
+      <h1>Update Player Stats</h1>
 
-    return (
-        <div className="stats-update">
-            <h1>Update Player Stats</h1>
-            <div className="form-group">
-                <label htmlFor="imageUpload">Upload Images</label>
-                <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                />
-            </div>
-            <button onClick={handleAnalyze}>Analyze</button>
+      <div className="match-select">
+        <label htmlFor="matchDropdown">Select Match:</label>
+        <select
+          id="matchDropdown"
+          onChange={(e) => handleMatchSelection(e.target.value)}
+        >
+          <option value="">-- Select Match --</option>
+          {matches.map((match) => (
+            <option key={match.match_id} value={match.match_id}>
+              {`${match.date} - ${match.opp_league}`}
+            </option>
+          ))}
+        </select>
+      </div>
 
-            {message && <p className="message">{message}</p>}
+      {message && <p className="message">{message}</p>}
 
-            <div className="table-container">
-                <table className="stats-table">
-                    <thead>
-                        <tr>
-                            <th>Player Name</th>
-                            <th>Score</th>
-                            <th>Fumbles</th>
-                            <th>Defensive Stops</th>
-                            <th>Defensive Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map((player, index) => (
-                            <tr key={index}>
-                                <td>{player.PlayerName}</td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={player.score}
-                                        onChange={(e) => handleTableChange(index, "score", e.target.value)}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={player.Fumbles}
-                                        onChange={(e) => handleTableChange(index, "Fumbles", e.target.value)}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={player.DefensiveStops}
-                                        onChange={(e) => handleTableChange(index, "DefensiveStops", e.target.value)}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={player.DefensiveScore}
-                                        onChange={(e) => handleTableChange(index, "DefensiveScore", e.target.value)}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            <button onClick={handleSave}>Save Stats</button>
+      {selectedMatch && (
+        <div className="table-container">
+          <h2>Matchup Against {selectedMatch.opp_league}</h2>
+          <table className="stats-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Fumbles</th>
+                <th>Def. Stops</th>
+                <th>Def. Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {players.map((player, index) => (
+                <tr key={player.player_id}>
+                  <td>{player.PlayerName}</td>
+                  <td>
+                    <input
+                      type="number"
+                      value={player.score}
+                      onChange={(e) =>
+                        handleTableChange(index, "score", e.target.value)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={player.fumbles}
+                      onChange={(e) =>
+                        handleTableChange(index, "fumbles", e.target.value)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={player.defensive_stops}
+                      onChange={(e) =>
+                        handleTableChange(index, "defensive_stops", e.target.value)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={player.defensive_score}
+                      onChange={(e) =>
+                        handleTableChange(index, "defensive_score", e.target.value)
+                      }
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      )}
+
+      <button onClick={handleSave} className="save-stats-button">
+        Save Stats
+      </button>
+    </div>
+  );
 };
 
 export default StatsUpdate;

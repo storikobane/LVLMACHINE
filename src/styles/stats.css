@@ -1,101 +1,143 @@
+/* Stats Page Styles */
 :root {
   --soft-blue: #ADD8E6;
   --light-gray: #D3D3D3;
   --charcoal: #36454F;
-  --subtle-mint: #98FB98;
   --white: #FFFFFF;
   --black: #000000;
   --dark-gray: #1C1C1C;
+  --highlight: #00e0ff;
   --hover-highlight: #555555;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, var(--black), var(--dark-gray));
+.stats-homepage {
+  padding: 20px;
+  background-color: var(--dark-gray);
   color: var(--white);
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.stats-main {
-  padding: 100px 20px 20px; /* Ensures content starts below navbar */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.stats-navigation {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.stats-navigation button {
-  background-color: var(--charcoal);
-  color: var(--white);
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.stats-navigation button:hover {
-  background-color: var(--soft-blue);
-}
-
-.stats-summary {
-  margin-bottom: 20px;
+h1 {
+  font-size: 2.5rem;
   text-align: center;
+  color: var(--soft-blue);
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
-.stats-summary p {
-  margin: 5px 0;
-  font-size: 18px;
+.team-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: var(--charcoal);
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-.stats-table-container {
-  overflow: auto;
-  max-height: 500px;
-  border: 1px solid var(--light-gray);
-  border-radius: 10px;
+.team-summary div {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--white);
 }
 
-.stats-table {
+h2 {
+  font-size: 1.8rem;
+  color: var(--soft-blue);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+table th,
+table td {
+  padding: 12px 15px;
   text-align: center;
+  font-size: 1rem;
 }
 
-.stats-table th, .stats-table td {
-  padding: 10px;
-  border: 1px solid var(--light-gray);
-}
-
-.stats-table th {
-  background-color: var(--charcoal);
-  color: var(--white);
-  position: sticky;
-  top: 0;
-}
-
-.stats-table tr:nth-child(even) {
+table th {
   background-color: var(--dark-gray);
+  color: var(--white);
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.stats-table tr:nth-child(odd) {
+table tr:nth-child(even) {
   background-color: var(--charcoal);
 }
 
-.stats-table tr:hover {
+table tr:nth-child(odd) {
+  background-color: var(--black);
+}
+
+table tr:hover {
   background-color: var(--hover-highlight);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .stats-main {
-    padding: 100px 15px 15px; /* Ensures spacing below navbar remains consistent */
-  }
+table td {
+  color: var(--light-gray);
+}
+
+.charts {
+  margin-top: 30px;
+}
+
+.charts h2 {
+  margin-bottom: 20px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  gap: 10px;
+  margin-bottom: 20px; /* Add spacing below the buttons */
+}
+
+.navigation-buttons button {
+  padding: 12px 20px;
+  background-color: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navigation-buttons button:hover {
+  background-color: var(--highlight);
+  transform: scale(1.05);
+}
+
+.top-weekly-stats {
+  margin-bottom: 30px;
+  background-color: var(--charcoal);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.top-weekly-stats table {
+  margin-top: 10px;
+  border: 2px solid var(--highlight);
+}
+
+.top-weekly-stats th {
+  background-color: var(--dark-gray);
+  color: var(--white);
+}
+
+.top-weekly-stats td {
+  color: var(--light-gray);
 }
