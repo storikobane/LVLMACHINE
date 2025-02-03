@@ -1,143 +1,103 @@
-/* Stats Page Styles */
-:root {
-  --soft-blue: #ADD8E6;
-  --light-gray: #D3D3D3;
-  --charcoal: #36454F;
-  --white: #FFFFFF;
-  --black: #000000;
-  --dark-gray: #1C1C1C;
-  --highlight: #00e0ff;
-  --hover-highlight: #555555;
-}
-
+/* General Styles */
 .stats-homepage {
+  text-align: center;
   padding: 20px;
   background-color: var(--dark-gray);
   color: var(--white);
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-h1 {
-  font-size: 2.5rem;
-  text-align: center;
-  color: var(--soft-blue);
-  margin-bottom: 20px;
-  text-transform: uppercase;
-}
-
-.team-summary {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 15px 20px;
-  background-color: var(--charcoal);
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-.team-summary div {
-  font-size: 1.2rem;
+/* Navigation Buttons */
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Ensure buttons wrap on smaller screens */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.navigation-buttons button {
+  padding: 10px 20px;
+  background-color: var(--soft-blue);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
   font-weight: bold;
+  transition: background-color 0.3s;
+  flex: 1 1 calc(50% - 30px); /* Buttons take half the screen width on small screens */
+  max-width: 200px; /* Prevent buttons from being too large */
+  text-align: center; /* Center text inside buttons */
+}
+
+.navigation-buttons button:hover {
+  background-color: var(--hover-highlight);
   color: var(--white);
 }
 
-h2 {
-  font-size: 1.8rem;
-  color: var(--soft-blue);
-  margin-bottom: 15px;
-  text-transform: uppercase;
+/* Team Summary, Top Players, and Recent Matches */
+.team-summary, .top-players, .recent-matches {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: var(--charcoal);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  text-align: center; /* Center-align text */
 }
 
+/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  margin: 20px 0;
+  overflow-x: auto; /* Horizontal scroll for small screens */
+  display: block; /* Enable scrollability */
+  text-align: center; /* Center-align table content */
 }
 
-table th,
-table td {
-  padding: 12px 15px;
+table th, table td {
+  padding: 10px;
+  border: 1px solid var(--charcoal);
   text-align: center;
-  font-size: 1rem;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 table th {
-  background-color: var(--dark-gray);
-  color: var(--white);
-  font-weight: bold;
-  text-transform: uppercase;
+  background-color: var(--soft-blue);
+  color: var(--black);
 }
 
 table tr:nth-child(even) {
-  background-color: var(--charcoal);
-}
-
-table tr:nth-child(odd) {
-  background-color: var(--black);
+  background-color: var(--light-gray);
 }
 
 table tr:hover {
   background-color: var(--hover-highlight);
 }
 
-table td {
-  color: var(--light-gray);
-}
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .team-summary, .top-players, .recent-matches {
+    width: 100%; /* Full width on small screens */
+    margin: 10px 0;
+    text-align: center;
+  }
 
-.charts {
-  margin-top: 30px;
-}
+  .navigation-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center align vertically stacked buttons */
+  }
 
-.charts h2 {
-  margin-bottom: 20px;
-}
+  .navigation-buttons button {
+    flex: 1 1 auto; /* Full width for buttons */
+    max-width: 100%; /* Remove button size limit */
+  }
 
-.navigation-buttons {
-  display: flex;
-  justify-content: flex-start; /* Align buttons to the left */
-  gap: 10px;
-  margin-bottom: 20px; /* Add spacing below the buttons */
-}
-
-.navigation-buttons button {
-  padding: 12px 20px;
-  background-color: var(--soft-blue);
-  color: var(--black);
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.navigation-buttons button:hover {
-  background-color: var(--highlight);
-  transform: scale(1.05);
-}
-
-.top-weekly-stats {
-  margin-bottom: 30px;
-  background-color: var(--charcoal);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.top-weekly-stats table {
-  margin-top: 10px;
-  border: 2px solid var(--highlight);
-}
-
-.top-weekly-stats th {
-  background-color: var(--dark-gray);
-  color: var(--white);
-}
-
-.top-weekly-stats td {
-  color: var(--light-gray);
+  table {
+    width: 100%; /* Ensure the table takes full width */
+  }
 }
