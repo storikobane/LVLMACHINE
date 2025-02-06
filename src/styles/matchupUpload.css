@@ -23,6 +23,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   padding-top: 80px; /* Ensures spacing below navbar */
+  padding-bottom: 120px; /* Ensures space for bottom button */
 }
 
 /* Header Styling */
@@ -131,8 +132,19 @@ h2 {
 }
 
 /* Save & Advance Button at Bottom */
+.save-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 60px; /* Keeps it above navbar */
+  left: 0;
+  padding: 15px 0;
+  background: var(--charcoal);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
 .save-button {
-  margin-top: 20px;
   padding: 12px 22px;
   font-size: 1rem;
   font-weight: bold;
@@ -150,25 +162,13 @@ h2 {
   color: var(--soft-blue);
 }
 
-/* Responsive Adjustments */
+/* Responsive Fixes */
 @media (max-width: 768px) {
   .matchups-page {
-    padding: 15px;
+    padding-bottom: 140px; /* Extra space for button */
   }
 
-  .opponents-table th,
-  .opponents-table td {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .opponents-table {
-    width: 90%;
-  }
-
-  h2 {
-    font-size: 1.5rem;
+  .save-button-container {
+    bottom: 80px; /* Ensures it's not blocked by navbar */
   }
 }

@@ -10,18 +10,20 @@
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
-  padding-top: 80px; /* Adds space between the navbar and header */
+  padding-top: 80px; /* Space for navbar */
+  padding-bottom: 100px; /* Space for bottom button */
 }
 
-.lineups-page h2 {
-  color: var(--soft-blue);
-  font-size: 2rem;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+/* Upload Section */
+.lineups-page .top-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Adds spacing between buttons */
+  flex-wrap: wrap;
+  margin-bottom: 20px; /* Ensures buttons are above the table */
 }
 
-/* Buttons */
+/* Grip It Button */
 .lineups-page .glow-button {
   background-color: var(--soft-blue);
   color: var(--black);
@@ -32,8 +34,14 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin: 10px 5px;
   box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+
+  /* Ensure text is fully centered */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-width: 120px; /* Prevents button from shrinking */
 }
 
 .lineups-page .glow-button:hover {
@@ -42,18 +50,40 @@
   box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.3);
 }
 
+/* Fix: Separate "Select Files" Button */
+.lineups-page .file-upload-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hide default file input */
 .lineups-page .input-div input[type="file"] {
   display: none;
 }
 
-/* Upload Section */
-.lineups-page .top-buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px; /* Ensures buttons are above the table */
+/* Custom Upload Button */
+.lineups-page .upload-button {
+  background-color: var(--highlight);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
 }
 
-/* Player List */
+.lineups-page .upload-button:hover {
+  background-color: var(--charcoal);
+  color: var(--highlight);
+  box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.3);
+}
+
+/* Player List - Allows Scrolling */
 .lineups-page .player-list {
   margin-top: 20px;
   width: 100%;
@@ -61,53 +91,51 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1; /* Allows list to expand naturally */
+  overflow-y: auto; /* Ensures scrolling if needed */
 }
 
-/* Player Row */
+/* Player Row - Controls Name and Rating Column Widths */
 .lineups-page .player-row {
   display: flex;
+  width: 100%;
+  max-width: 400px;
   justify-content: space-between;
   align-items: center;
-  background: var(--charcoal);
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  width: 100%; /* Ensure rows take up full width */
+  padding: 5px;
+  border-bottom: 1px solid var(--light-gray);
 }
 
-/* Player Position */
-.lineups-page .player-row span {
-  width: 50px;
-  text-align: center;
-  color: var(--white);
-  font-weight: bold;
+/* Name Column */
+.lineups-page .player-name {
+  flex: 2; /* Adjust width as needed */
+  min-width: 150px; /* Set a min-width */
+  text-align: left;
+  padding-right: 10px;
 }
 
-/* Input Fields */
-.lineups-page input {
-  padding: 8px;
-  border-radius: 6px;
-  background: var(--dark-gray);
-  color: var(--soft-blue);
-  border: 2px solid var(--light-gray);
-}
-
-.lineups-page .name-input {
-  flex-grow: 2; /* Makes name input larger */
-  margin-right: 10px;
-  min-width: 200px; /* Ensures minimum width for name input */
-}
-
-.lineups-page .rating-input {
-  flex-grow: 0; /* Prevents unnecessary stretching */
-  max-width: 90px; /* Restricts rating input width */
+/* Rating Column */
+.lineups-page .player-rating {
+  flex: 1; /* Adjust width as needed */
+  min-width: 50px;
   text-align: center;
 }
 
-/* Save Button */
+
+/* Save Button - Stays at Bottom Naturally */
+.lineups-page .save-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 60px; /* Keeps it above navbar */
+  left: 0;
+  padding: 15px 0;
+  background: var(--charcoal); /* Blends into page */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
 .lineups-page .save-button {
-  margin-top: 20px;
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: bold;
@@ -125,23 +153,13 @@
   color: var(--soft-blue);
 }
 
-/* Responsive Adjustments */
+/* Responsive Fixes */
 @media (max-width: 768px) {
   .lineups-page {
-    padding: 15px;
+    padding-bottom: 120px; /* Extra space for the button */
   }
 
-  .lineups-page .player-row {
-    flex-wrap: wrap;
-    padding: 8px;
-  }
-
-  .lineups-page .name-input {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .lineups-page .rating-input {
-    width: 100%;
+  .lineups-page .save-button-container {
+    bottom: 80px; /* Ensures space above navbar */
   }
 }

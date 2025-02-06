@@ -28,18 +28,12 @@ html, body {
 
 /* Global Layout */
 body {
-  padding-top: 100px; /* Ensures content starts below navbar */
+  padding-top: 60px; /* Ensures content starts below navbar */
 }
 
-/* Global Links */
-a {
-  text-decoration: none;
-  color: var(--highlight);
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--soft-blue);
+/* Ensure content has space for bottom buttons */
+.page-content {
+  padding-bottom: 120px; /* Extra space for buttons */
 }
 
 /* Global Buttons */
@@ -53,28 +47,20 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-  transform: scale(1.05);
+/* Fix: Floating Button to Keep it Visible */
+.bottom-button {
+  position: fixed;
+  bottom: 80px; /* Adjusted to be above the navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--soft-blue);
+  color: var(--black);
+  padding: 12px 24px;
+  border-radius: 10px;
+  z-index: 1100; /* Ensures it stays above everything */
 }
 
-/* Textboxes */
-input[type="text"], input[type="number"], textarea {
-  padding: 5px;
-  margin: 10px 0;
-  border: 2px solid var(--light-gray);
-  border-radius: 5px;
-  background-color: var(--dark-gray);
-  color: var(--white);
-  font-size: 1rem;
-}
-
-input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
-  outline: none;
-  border-color: var(--highlight);
-  box-shadow: 0 0 5px var(--highlight);
-}
-
-/* Navbar Positioning */
+/* Navbar Styling */
 .navbar {
   position: fixed;
   top: 0;
@@ -86,50 +72,29 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* Utility Classes */
-.text-center {
-  text-align: center;
-}
-
-.flex {
-  display: flex;
-  align-items: center;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.hidden {
-  display: none;
-}
-
-/* Responsive Design */
+/* Mobile: Move Navbar to Bottom and Adjust Content */
 @media (max-width: 768px) {
-  body {
-    padding-top: 70px; /* Adjust padding for navbar on smaller devices */
-  }
-
   .navbar {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    width: 100%;
     font-size: 0.9rem;
     padding: 10px;
   }
 
-  button {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar {
-    font-size: 0.8rem;
-    flex-wrap: wrap; /* Allow navbar content to adjust */
+  /* Remove padding-top since navbar is at bottom */
+  body {
+    padding-top: 0;
   }
 
-  button {
-    font-size: 0.8rem;
-    padding: 6px 12px;
+  /* Ensure extra space so buttons aren't blocked */
+  .page-content {
+    padding-bottom: 150px;
+  }
+
+  /* Make Bottom Button Always Visible */
+  .bottom-button {
+    bottom: 100px; /* Above the navbar */
   }
 }

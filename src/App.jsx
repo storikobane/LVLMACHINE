@@ -14,6 +14,7 @@ import StatsDaily from "./pages/StatsDaily";
 import StatsWeekly from "./pages/StatsWeekly";
 import StatsDef from "./pages/StatsDef";
 import StatsUpdate from "./pages/StatsUpdate";
+import StatsUpdateUpload from "./pages/StatsUpdateUpload"; // Import new StatsUpdateUpload page
 import ReorderPlayers from "./pages/ReorderPlayers";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
@@ -134,6 +135,14 @@ function App() {
           element={
             <ProtectedRoute>
               <StatsUpdate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statsupdateupload" // New StatsUpdateUpload Route
+          element={
+            <ProtectedRoute>
+              <StatsUpdateUpload />
             </ProtectedRoute>
           }
         />
