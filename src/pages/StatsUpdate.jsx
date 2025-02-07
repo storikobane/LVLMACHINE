@@ -134,7 +134,7 @@ const StatsUpdate = () => {
         </select>
         <button
           className="upload-button"
-          onClick={() => navigate("/statsupdateupload")}
+          onClick={() => navigate("/StatsUpdateUpload")}
         >
           Upload Stats
         </button>

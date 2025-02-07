@@ -15,7 +15,7 @@
   background-color: var(--dark-gray);
   color: var(--white);
   font-family: 'Roboto', sans-serif;
-  padding: 100px 20px 20px; /* Ensures content starts below navbar */
+  padding: 100px 20px 120px; /* Adjusted padding-bottom for extra space */
   min-height: 100vh;
   display: flex;
   flex-direction: column;

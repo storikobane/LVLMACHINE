@@ -7,16 +7,17 @@ const StatsUpdateUpload = () => {
   const [results, setResults] = useState([]);
   const [message, setMessage] = useState("");
 
-  const STORAGE_ACCOUNT_NAME = "statsimages";
-  const CONTAINER_NAME = "stats";
+  // Azure Blob Storage Configuration
+  const STORAGE_ACCOUNT_NAME = "lineupsimages";
+  const CONTAINER_NAME = "lineups";
   const SAS_TOKEN =
-    "sp=racwdli&st=2025-02-04T06:35:18Z&se=2025-03-08T14:35:18Z&sv=2022-11-02&sr=c&sig=ED6h4uJHNlGFsb94T5G7phYWR7M7cOhZDB1Jo8DwtGc%3D";
+    "sp=racwdli&st=2025-01-22T01:53:55Z&se=2025-02-08T09:53:55Z&sv=2022-11-02&sr=c&sig=sUSZ6ff1ghmZWKy0KMTdCENx0Ua2Lcl5tnMLQ215y5c%3D";
   const BLOB_URL = `https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}`;
 
-  const DOCUMENT_INTELLIGENCE_ENDPOINT =
-    "https://matchupsreader.cognitiveservices.azure.com/formrecognizer/documentModels/MatchUpdate:analyze?api-version=2024-11-30";
-  const DOCUMENT_INTELLIGENCE_KEY =
-    "3iTzMVJzQnWaORLklMdKOmAItzq1FaLjGVNGQqZwXh1d8B0FZrA2JQQJ99BAACYeBjFXJ3w3AAALACOGy27q";
+  // Azure Document Intelligence Configuration
+  const apiKey = "87HP219ViBXwWNC6G9hYqDA4Ec2SiJf1YJ0K9InroAVpRxS4dw65JQQJ99BAACYeBjFXJ3w3AAALACOG4skb";
+  const endpoint = "https://matchupsreader.cognitiveservices.azure.com";
+  const DOCUMENT_INTELLIGENCE_ENDPOINT = `${endpoint}/formrecognizer/documentModels/stats5:analyze?api-version=2023-02-28`;
 
   const handleFileChange = (e) => {
     setImages(Array.from(e.target.files));
@@ -43,23 +44,23 @@ const StatsUpdateUpload = () => {
 
   const analyzeDocument = async (imageUrl) => {
     try {
-        const response = await axios.post(
-            DOCUMENT_INTELLIGENCE_ENDPOINT,
-            { url: imageUrl }, // Use "url" as the key in JSON format
-            {
-                headers: {
-                    "Ocp-Apim-Subscription-Key": DOCUMENT_INTELLIGENCE_KEY,
-                    "Content-Type": "application/json", // Correct content type
-                },
-            }
-        );
+      const response = await axios.post(
+        DOCUMENT_INTELLIGENCE_ENDPOINT,
+        { urlSource: imageUrl }, // Use urlSource for Azure Form Recognizer
+        {
+          headers: {
+            "Ocp-Apim-Subscription-Key": apiKey,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-        return response.data.analyzeResult;
+      return response.data.analyzeResult;
     } catch (error) {
-        console.error("Error analyzing document:", error.response?.data || error.message);
-        throw new Error("Failed to analyze document.");
+      console.error("Error analyzing document:", error.response?.data || error.message);
+      throw new Error("Failed to analyze document.");
     }
-};
+  };
 
   const handleAnalyze = async () => {
     if (images.length === 0) {

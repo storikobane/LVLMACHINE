@@ -7,6 +7,9 @@
   --pale-dogwood: #CEB7B3; /* Tie color */
   --win-green: #00FF00; /* Green for wins */
   --loss-red: #FF0000; /* Red for losses */
+  --dark-gray: #2D2D2D; /* Background gradient */
+  --charcoal: #36454F; /* Gradient end */
+  --white: #FFFFFF; /* Font color */
 }
 
 /* Match History Page Specific Styles */
@@ -24,7 +27,7 @@
   padding-top: 80px; /* Adds space between the navbar and content */
 }
 
-/* Header styling */
+/* Header Styling */
 .match-history-page h2 {
   color: var(--caribbean-current);
   font-size: 2rem;
@@ -85,7 +88,7 @@
   align-items: center;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 3px solid var(--tie-gray); /* Default (Tie) */
+  border: 3px solid var(--pale-dogwood); /* Default (Tie) */
   max-width: 250px;
   flex: 1 1 250px;
   cursor: pointer;
@@ -93,26 +96,26 @@
 
 /* Glow and Border for Wins */
 .match-history-page .match-card.win {
-  border: 3px solid var(--win-green); /* Green border */
-  box-shadow: 0 0 8px var(--win-green), 0 0 15px var(--win-green); /* Reduced green glow */
+  border: 3px solid var(--win-green);
+  box-shadow: 0 0 8px var(--win-green), 0 0 15px var(--win-green);
 }
 
 /* Glow and Border for Losses */
 .match-history-page .match-card.loss {
-  border: 3px solid var(--loss-red); /* Red border */
-  box-shadow: 0 0 8px var(--loss-red), 0 0 15px var(--loss-red); /* Reduced red glow */
+  border: 3px solid var(--loss-red);
+  box-shadow: 0 0 8px var(--loss-red), 0 0 15px var(--loss-red);
 }
 
 /* Glow and Border for Ties */
 .match-history-page .match-card.tie {
-  border: 3px solid var(--pale-dogwood); /* Tie border */
-  box-shadow: 0 0 8px var(--pale-dogwood), 0 0 15px var(--pale-dogwood); /* Reduced tie glow */
+  border: 3px solid var(--pale-dogwood);
+  box-shadow: 0 0 8px var(--pale-dogwood), 0 0 15px var(--pale-dogwood);
 }
 
 /* Match Card Hover */
 .match-history-page .match-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6); /* Slightly enhanced shadow on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
 }
 
 /* Match Card Content */
@@ -149,7 +152,7 @@
   }
 
   .match-history-page .match-card {
-    max-width: 200px; /* Smaller cards on narrow screens */
+    max-width: 200px;
     flex: 1 1 200px;
   }
 

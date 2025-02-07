@@ -9,6 +9,7 @@
             "start": "node server/index.js"
       },
       "dependencies": {
+            "@azure-rest/ai-document-intelligence": "^1.0.0",
             "@supabase/supabase-js": "^2.48.1",
             "antd": "^5.23.2",
             "axios": "^1.7.9",

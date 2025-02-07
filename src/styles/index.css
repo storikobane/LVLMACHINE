@@ -98,3 +98,19 @@ button {
     bottom: 100px; /* Above the navbar */
   }
 }
+/* Remove spinners in WebKit browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinners in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* General fallback for other browsers */
+input[type="number"] {
+  appearance: none;
+}

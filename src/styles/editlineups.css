@@ -1,5 +1,3 @@
-/* EditLineup.css */
-
 /* Root Color Palette */
 :root {
   --soft-blue: #ADD8E6;
@@ -13,140 +11,141 @@
 }
 
 /* Page Container */
-.edit-lineup-page {
-  background-color: var(--dark-gray);
+.editlineuppage {
+  background: linear-gradient(180deg, var(--dark-gray), var(--charcoal));
   color: var(--white);
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   min-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Center the entire page content horizontally */
+  justify-content: flex-start; /* Align content at the top */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding-top: 80px; /* Space for navbar */
+  padding-bottom: 80px; /* Space for the fixed button */
 }
 
 /* Header */
-h2 {
+.editlineuppage h2 {
   color: var(--soft-blue);
+  font-size: 2rem;
   margin-bottom: 20px;
   text-transform: uppercase;
-  font-size: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* Buttons */
-.button-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-
-.glow-button {
-  background-color: var(--soft-blue);
-  color: var(--charcoal);
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.glow-button:hover {
-  background-color: var(--highlight);
-  transform: scale(1.05);
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center; /* Ensure the header is centered */
 }
 
 /* Player List Section */
 .player-list {
+  margin-top: 20px;
   width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 320px; /* Ensures list doesn't stretch too far */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the player rows */
+  overflow-y: auto; /* Allows scrolling for long lists */
+  flex-grow: 1; /* Takes up remaining vertical space */
 }
 
+/* Player Row */
 .player-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 25px 150px 70px; /* Columns for position, name, and rating */
+  gap: 10px;
   align-items: center;
   background-color: var(--charcoal);
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%; /* Rows span the full width of the player list */
 }
 
 .player-row:nth-child(odd) {
-  background-color: #2a2a2a;
+  background-color: #2a2a2a; /* Alternating row color */
 }
 
 .player-row span {
   color: var(--white);
   font-weight: bold;
-  width: 40px;
   text-align: center;
 }
 
+/* Name and Rating Inputs */
 .name-input,
 .rating-input {
-  background-color: var(--dark-gray);
-  color: var(--white);
-  border: 2px solid var(--charcoal);
-  border-radius: 5px;
+  background-color: var(--black); /* Black background for inputs */
+  color: var(--white); /* White text */
+  border: 1px solid var(--light-gray); /* Light gray border */
+  border-radius: 8px;
   padding: 8px;
   font-size: 1rem;
-  flex: 1;
-  margin-left: 10px;
   text-align: center;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  -webkit-appearance: none; /* Remove spinners in WebKit browsers */
+  -moz-appearance: textfield; /* Remove spinners in Firefox */
+  appearance: none; /* General fallback */
 }
 
 .name-input:focus,
 .rating-input:focus {
   outline: none;
-  border-color: var(--soft-blue);
+  border-color: var(--soft-blue); /* Highlight border on focus */
+  background-color: var(--charcoal); /* Slightly lighter background on focus */
 }
 
-/* Save Button */
+/* Save Button Container */
+.save-button-container {
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  align-items: center; /* Vertically center the button */
+  width: auto; /* Allow the button to size itself */
+  margin-top: 20px; /* Space above the button */
+}
+
 .save-button {
-  background-color: var(--subtle-mint);
-  color: var(--charcoal);
-  font-size: 1.2rem;
+  padding: 12px 24px;
+  font-size: 1rem;
   font-weight: bold;
+  background: var(--soft-blue); /* Button color */
+  color: var(--black);
   border: none;
-  border-radius: 5px;
-  padding: 10px 30px;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3); /* Glow effect */
 }
 
 .save-button:hover {
   background-color: var(--highlight);
   transform: scale(1.05);
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3); /* Slight hover effect */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  h2 {
-    font-size: 1.5rem;
+  .editlineuppage {
+    padding: 15px;
+    padding-bottom: 100px; /* Ensures enough space for the fixed button */
   }
 
   .player-row {
-    flex-wrap: wrap;
-    padding: 8px;
+    grid-template-columns: 20px 150px 60px; /* Adjusted column widths for smaller screens */
+    gap: 8px;
   }
 
   .name-input,
   .rating-input {
-    width: 100%;
-    margin: 5px 0;
+    font-size: 0.9rem; /* Slightly smaller text size for inputs */
   }
 
-  .glow-button,
+  .save-button-container {
+    padding: 8px 16px; /* Adjust padding for smaller screens */
+  }
+
   .save-button {
-    width: 100%;
+    padding: 10px;
   }
 }
