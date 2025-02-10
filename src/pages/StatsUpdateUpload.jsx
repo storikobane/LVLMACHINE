@@ -6,18 +6,20 @@ const StatsUpdateUpload = () => {
   const [images, setImages] = useState([]);
   const [results, setResults] = useState([]);
   const [message, setMessage] = useState("");
+  const [models, setModels] = useState([]); // State to hold model list
 
   // Azure Blob Storage Configuration
-  const STORAGE_ACCOUNT_NAME = "lineupsimages";
-  const CONTAINER_NAME = "lineups";
+  const STORAGE_ACCOUNT_NAME = "statimages";
+  const CONTAINER_NAME = "stats1";
   const SAS_TOKEN =
-    "sp=racwdli&st=2025-01-22T01:53:55Z&se=2025-02-08T09:53:55Z&sv=2022-11-02&sr=c&sig=sUSZ6ff1ghmZWKy0KMTdCENx0Ua2Lcl5tnMLQ215y5c%3D";
+    "sp=rcwd&st=2025-02-10T05:58:55Z&se=2025-05-24T12:58:55Z&sv=2022-11-02&sr=c&sig=jZhr%2B8hP51j5qzhwlxU8Pw3THL8IJ1jGRntD0yxqCOU%3D";
   const BLOB_URL = `https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}`;
 
   // Azure Document Intelligence Configuration
   const apiKey = "87HP219ViBXwWNC6G9hYqDA4Ec2SiJf1YJ0K9InroAVpRxS4dw65JQQJ99BAACYeBjFXJ3w3AAALACOG4skb";
   const endpoint = "https://matchupsreader.cognitiveservices.azure.com";
-  const DOCUMENT_INTELLIGENCE_ENDPOINT = `${endpoint}/formrecognizer/documentModels/stats5:analyze?api-version=2023-02-28`;
+  const DOCUMENT_INTELLIGENCE_ENDPOINT = `${endpoint}/formrecognizer/documentModels/stats1:analyze?api-version=2024-11-30`;
+  const LIST_MODELS_ENDPOINT = `${endpoint}/formrecognizer/documentModels?api-version=2024-11-30`;
 
   const handleFileChange = (e) => {
     setImages(Array.from(e.target.files));
@@ -32,9 +34,10 @@ const StatsUpdateUpload = () => {
       await axios.put(blobUrl, file, {
         headers: {
           "x-ms-blob-type": "BlockBlob",
-          "Content-Type": file.type,
+          "Content-Type": "application/octet-stream",
         },
       });
+
       return blobUrl.split("?")[0];
     } catch (error) {
       console.error("Error uploading to Blob Storage:", error.response?.data || error.message);
@@ -46,7 +49,7 @@ const StatsUpdateUpload = () => {
     try {
       const response = await axios.post(
         DOCUMENT_INTELLIGENCE_ENDPOINT,
-        { urlSource: imageUrl }, // Use urlSource for Azure Form Recognizer
+        { url: imageUrl },
         {
           headers: {
             "Ocp-Apim-Subscription-Key": apiKey,
@@ -55,10 +58,48 @@ const StatsUpdateUpload = () => {
         }
       );
 
-      return response.data.analyzeResult;
+      if (!response.headers["operation-location"]) {
+        throw new Error("Operation location not found.");
+      }
+
+      const operationUrl = response.headers["operation-location"];
+
+      // Polling for results
+      let result;
+      for (let i = 0; i < 10; i++) {
+        await new Promise((res) => setTimeout(res, 3000)); // Wait 3 sec
+        const pollResponse = await axios.get(operationUrl, {
+          headers: { "Ocp-Apim-Subscription-Key": apiKey },
+        });
+
+        if (pollResponse.data.status === "succeeded") {
+          result = pollResponse.data.analyzeResult.documents[0]?.fields;
+          break;
+        }
+      }
+
+      if (!result) throw new Error("Analysis took too long.");
+
+      return result;
     } catch (error) {
       console.error("Error analyzing document:", error.response?.data || error.message);
       throw new Error("Failed to analyze document.");
+    }
+  };
+
+  const listModels = async () => {
+    try {
+      const response = await axios.get(LIST_MODELS_ENDPOINT, {
+        headers: {
+          "Ocp-Apim-Subscription-Key": apiKey,
+        },
+      });
+
+      setModels(response.data.documentModels || []);
+      setMessage("Models listed successfully.");
+    } catch (error) {
+      console.error("Error listing models:", error.response?.data || error.message);
+      setMessage("Failed to list models.");
     }
   };
 
@@ -72,20 +113,17 @@ const StatsUpdateUpload = () => {
     const uploadedUrls = [];
 
     try {
-      // Upload images to Blob Storage
       for (const image of images) {
         const imageUrl = await uploadToBlobStorage(image);
         uploadedUrls.push(imageUrl);
       }
 
-      // Analyze each uploaded image
       const analyzedData = [];
       for (const imageUrl of uploadedUrls) {
         const analyzeResult = await analyzeDocument(imageUrl);
-        analyzedData.push(...analyzeResult.fields);
+        analyzedData.push(...Object.values(analyzeResult));
       }
 
-      // Process and filter results
       const filteredResults = analyzedData
         .filter((field) => field.PlayerName && field.Score)
         .map((field) => ({
@@ -130,6 +168,9 @@ const StatsUpdateUpload = () => {
         <button onClick={handleAnalyze} className="analyze-button">
           Analyze Images
         </button>
+        <button onClick={listModels} className="list-models-button">
+          List Models
+        </button>
       </div>
 
       <div className="results-section">
@@ -155,10 +196,18 @@ const StatsUpdateUpload = () => {
         )}
       </div>
 
-      {results.length > 0 && (
-        <button onClick={handleSave} className="save-button">
-          Save Data
-        </button>
+      {models.length > 0 && (
+        <div className="models-list">
+          <h2>Available Models</h2>
+          <ul>
+            {models.map((model, index) => (
+              <li key={index}>
+                <strong>{model.modelId}</strong> - {model.description || "No description"} - Status:{" "}
+                {model.status}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {message && <p className="message">{message}</p>}
