@@ -19,7 +19,7 @@ function Lineups() {
   const STORAGE_ACCOUNT_NAME = "lineupsimages";
   const CONTAINER_NAME = "lineups";
   const SAS_TOKEN =
-    "sp=racwdli&st=2025-02-10T03:23:53Z&se=2025-06-21T10:23:53Z&sv=2022-11-02&sr=c&sig=4LmYfz4hIyjbYFXm7weimvbGpMPyvvtsKfE7G69esPA%3D";
+    "sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciyx&se=2025-02-20T23:41:16Z&st=2025-02-20T15:41:16Z&spr=https,http&sig=gw0OV7j756OPJBuDsK8mOBG8MUv%2BlLzqXbsUEMCCA1M%3D";
   const BLOB_URL = `https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}`;
 
   const DOCUMENT_INTELLIGENCE_ENDPOINT =
