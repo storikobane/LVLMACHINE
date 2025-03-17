@@ -24,11 +24,9 @@ const MatchupUpload = () => {
 
   // Azure Configuration
   const apiKey = "87HP219ViBXwWNC6G9hYqDA4Ec2SiJf1YJ0K9InroAVpRxS4dw65JQQJ99BAACYeBjFXJ3w3AAALACOG4skb";
-  const endpoint = "https://matchupsreader.cognitiveservices.azure.com";
-  const blobStorageUrl =
-    "https://matchupimagesstorage.blob.core.windows.net/matchupimages";
-  const sasToken =
-    "?sp=racwdli&st=2025-01-27T23:47:09Z&se=2025-02-28T07:47:09Z&sv=2022-11-02&sr=c&sig=cc%2BQkc%2BGpCg6iXPTX8iPocMJdJaztKDEIa3WDgjJrAE%3D";
+  const endpoint = "https://matchupsreader.cognitiveservices.azure.com/";
+  const blobStorageUrl = "https://matchupimagesstorage.blob.core.windows.net/matchupimages";
+  const sasToken = "sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2025-08-09T02:09:28Z&st=2025-03-17T18:09:28Z&spr=https,http&sig=fNHkyIr%2BM8UxgHcRnHJUCB8kjeRPg1uEhdGIwUUyM%2FE%3D";
 
   const handleFilesChange = (e) => {
     setUploadedFiles(Array.from(e.target.files));
@@ -50,7 +48,7 @@ const MatchupUpload = () => {
     try {
       const allParsedData = [];
       for (const file of uploadedFiles) {
-        const blobUrl = `${blobStorageUrl}/${file.name}${sasToken}`;
+        const blobUrl = `${blobStorageUrl}/${file.name}?${sasToken}`;
 
         // Upload file to Azure Blob Storage
         await axios.put(blobUrl, file, {
